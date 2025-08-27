@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: fraudguard-backend
+
+logging:
+  level:
+    com.fraudguard: INFO
+    root: WARN
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

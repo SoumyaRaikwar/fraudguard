@@ -1,0 +1,93 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: fraudguard-backend
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:fraudguard}
+    username: ${DB_USER:admin}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+  
+  # Redis Configuration
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+# Security Configuration
+security:
+  jwt:
+    secret: ${JWT_SECRET:mySecretKey}
+    expiration: 86400000 # 24 hours
+
+# API Documentation
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Logging
+logging:
+  level:
+    com.fraudguard: INFO
+    org.springframework.security: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/fraudguard.log
+
+---
+# Docker Profile
+spring:
+  config:
+    activate:
+      on-profile: docker
+  
+  datasource:
+    url: jdbc:postgresql://postgres:5432/fraudguard
+  
+  data:
+    redis:
+      host: redis
+
+logging:
+  level:
+    com.fraudguard: DEBUG
