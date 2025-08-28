@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Laundering Detection Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-shield-alt" style="font-size: 2rem; margin-right: 10px; color: #00b0ff;"></i>
+            <h2>FraudGuard ML</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li><a href="#alerts"><i class="fas fa-exclamation-triangle"></i><span>Alerts</span></a></li>
+                <li><a href="#ml-models"><i class="fas fa-brain"></i><span>ML Models</span></a></li>
+                <li><a href="#network"><i class="fas fa-project-diagram"></i><span>Network Analysis</span></a></li>
+                <li><a href="#transactions"><i class="fas fa-exchange-alt"></i><span>Transactions</span></a></li>
+                <li><a href="#reports"><i class="fas fa-chart-line"></i><span>Reports</span></a></li>
+                <li><a href="#settings"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <h1>Money Laundering Detection Dashboard</h1>
+            <div class="user-info">
+                <div id="mlServiceStatus" style="margin-right: 15px; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: bold;">
+                    <i class="fas fa-circle"></i> ML Service: CHECKING...
+                </div>
+                <img src="https://via.placeholder.com/40" alt="User">
+                <span>Fraud Analyst</span>
+            </div>
+        </header>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Total Alerts</div>
+                    <div class="card-icon" style="background: linear-gradient(45deg, #ff6b6b, #ee5a24);">
+                        <i class="fas fa-exclamation-triangle" style="color: white;"></i>
+                    </div>
+                </div>
+                <div class="card-value" id="totalAlerts">142</div>
+                <div class="card-trend">
+                    <i class="fas fa-arrow-up"></i>12% from last week
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">High Priority Alerts</div>
+                    <div class="card-icon" style="background: linear-gradient(45deg, #feca57, #ff9ff3);">
+                        <i class="fas fa-bolt" style="color: white;"></i>
+                    </div>
+                </div>
+                <div class="card-value" id="highPriorityAlerts">27</div>
+                <div class="card-trend">
+                    <i class="fas fa-arrow-up"></i>5% from last week
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">ML Models Active</div>
+                    <div class="card-icon" style="background: linear-gradient(45deg, #48dbfb, #0abde3);">
+                        <i class="fas fa-brain" style="color: white;"></i>
+                    </div>
+                </div>
+                <div class="card-value" id="mlModelsActive">8</div>
+                <div class="card-trend" id="mlModelsTrend">
+                    <i class="fas fa-check"></i>Models ready
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Avg Response Time</div>
+                    <div class="card-icon" style="background: linear-gradient(45deg, #ff9ff3, #54a0ff);">
+                        <i class="fas fa-clock" style="color: white;"></i>
+                    </div>
+                </div>
+                <div class="card-value" id="avgResponseTime">42ms</div>
+                <div class="card-trend">
+                    <i class="fas fa-arrow-down"></i>Optimized by ML
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Suspicious Activity by Type</div>
+                    <div class="chart-actions">
+                        <button onclick="refreshCharts()">Refresh</button>
+                    </div>
+                </div>
+                <div class="chart-canvas">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">ML Detection Accuracy by Model</div>
+                    <div class="chart-actions">
+                        <button onclick="refreshCharts()">Refresh</button>
+                    </div>
+                </div>
+                <div class="chart-canvas">
+                    <canvas id="accuracyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- FraudGuard ML Network Analysis -->
+        <div class="network-section">
+            <div class="chart-header">
+                <div class="chart-title">
+                    <i class="fas fa-project-diagram"></i>
+                    FraudGuard ML - Transaction Network Analysis
+                </div>
+                <div class="chart-actions">
+                    <button onclick="regenerateNetwork()">
+                        <i class="fas fa-sync"></i> Regenerate
+                    </button>
+                    <button onclick="togglePhysics()">
+                        <i class="fas fa-bolt"></i> Physics
+                    </button>
+                    <button onclick="fitNetwork()">
+                        <i class="fas fa-expand-arrows-alt"></i> Fit View
+                    </button>
+                </div>
+            </div>
+            <div id="networkGraph"></div>
+        </div>
+
+        <!-- FraudGuard ML Training & Testing Section -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <div class="chart-title">
+                    <i class="fas fa-brain"></i>
+                    FraudGuard ML - Model Management
+                </div>
+                <div class="chart-actions">
+                    <button onclick="trainTestUser()">
+                        <i class="fas fa-play"></i> Train Test User
+                    </button>
+                    <button onclick="testSuspiciousTransaction()">
+                        <i class="fas fa-search"></i> Test Detection
+                    </button>
+                    <button onclick="generateNetworkData()">
+                        <i class="fas fa-network-wired"></i> Generate Network
+                    </button>
+                </div>
+            </div>
+            
+            <div class="ml-management-grid">
+                <!-- ML Model Status -->
+                <div class="status-panel">
+                    <h4><i class="fas fa-cog"></i> Model Status</h4>
+                    <div id="modelStatus">
+                        <p><strong>Trained Users:</strong> <span id="trainedUsers">Loading...</span></p>
+                        <p><strong>Processing Time:</strong> <span id="processingTime">Loading...</span></p>
+                        <p><strong>Model Accuracy:</strong> <span id="modelAccuracy">Loading...</span></p>
+                        <p><strong>Service Health:</strong> <span id="serviceHealth">Checking...</span></p>
+                    </div>
+                </div>
+
+                <!-- Recent ML Activity -->
+                <div class="activity-panel">
+                    <h4><i class="fas fa-history"></i> Recent ML Activity</h4>
+                    <div id="recentMLActivity">
+                        <p style="color: #757575; font-style: italic;">
+                            No recent activity. Start by training a model or testing a transaction.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Alert Table with ML Analysis -->
+        <div class="alert-table">
+            <h3>Recent High Priority Alerts</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Pattern</th>
+                        <th>Risk Score</th>
+                        <th>Status</th>
+                        <th>ML Analysis</th>
+                    </tr>
+                </thead>
+                <tbody id="alertsTableBody">
+                    <tr>
+                        <td>10:23 AM</td>
+                        <td>Global Imports Inc.</td>
+                        <td>$9,520.00</td>
+                        <td>Wire Transfer</td>
+                        <td>Structuring</td>
+                        <td><span class="badge badge-high">92%</span></td>
+                        <td>New</td>
+                        <td><span class="badge badge-high">ML: HIGH</span></td>
+                    </tr>
+                    <tr>
+                        <td>09:45 AM</td>
+                        <td>John D. Smith</td>
+                        <td>$18,450.00</td>
+                        <td>Crypto Exchange</td>
+                        <td>Layering</td>
+                        <td><span class="badge badge-high">87%</span></td>
+                        <td>In Review</td>
+                        <td><span class="badge badge-medium">ML: MEDIUM</span></td>
+                    </tr>
+                    <tr>
+                        <td>09:12 AM</td>
+                        <td>EuroTrade LLC</td>
+                        <td>$47,800.00</td>
+                        <td>Business Payment</td>
+                        <td>Trade-Based</td>
+                        <td><span class="badge badge-high">95%</span></td>
+                        <td>New</td>
+                        <td><span class="badge badge-high">ML: CRITICAL</span></td>
+                    </tr>
+                    <tr>
+                        <td>Yesterday</td>
+                        <td>Maria Rodriguez</td>
+                        <td>$12,300.00</td>
+                        <td>Multiple Deposits</td>
+                        <td>Structuring</td>
+                        <td><span class="badge badge-medium">76%</span></td>
+                        <td>Escalated</td>
+                        <td><span class="badge badge-medium">ML: MEDIUM</span></td>
+                    </tr>
+                    <tr>
+                        <td>Yesterday</td>
+                        <td>Digital Assets Co.</td>
+                        <td>$124,500.00</td>
+                        <td>Crypto Transfer</td>
+                        <td>Integration</td>
+                        <td><span class="badge badge-high">89%</span></td>
+                        <td>SAR Prepared</td>
+                        <td><span class="badge badge-high">ML: HIGH</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
