@@ -1,0 +1,42 @@
+# Production Environment Configuration
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:fraudguard_prod}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD}
+
+logging:
+  level:
+    root: WARN
+    com.fraudguard: INFO
+  file:
+    name: /var/log/fraudguard/application.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+fraudguard:
+  ml-service:
+    base-url: ${ML_SERVICE_URL}
+  rate-limit:
+    requests-per-minute: 5000
+    burst-capacity: 10000
