@@ -32,10 +32,10 @@ public class UserSession {
     @Column(name = "is_active")
     private Boolean isActive = true;
     
-    // Constructor
+    // Constructors, getters, setters
     public UserSession() {
         this.createdAt = LocalDateTime.now();
     }
     
-    // All getters and setters for each field...
+    // Add getters and setters as needed
 }

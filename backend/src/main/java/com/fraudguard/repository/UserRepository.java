@@ -42,4 +42,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUsersCreatedBetween(@Param("startDate") LocalDateTime startDate, 
                                       @Param("endDate") LocalDateTime endDate);
     
-    @Query("SELECT u FROM User u WHERE u.lastLogin < :date
+    @Query("SELECT u FROM User u WHERE u.lastLogin < :date")
+    List<User> findUsersWithLastLoginBefore(@Param("date") LocalDateTime date);
+}
+
