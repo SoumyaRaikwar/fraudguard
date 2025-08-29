@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false">
+
+    <!-- Default cache configuration -->
+    <defaultCache
+        maxElementsInMemory="10000"
+        eternal="false"
+        timeToIdleSeconds="600"
+        timeToLiveSeconds="3600"
+        overflowToDisk="false"
+        diskPersistent="false"
+        memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- User profiles cache -->
+    <cache name="userProfiles"
+           maxElementsInMemory="5000"
+           eternal="false"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- Fraud rules cache -->
+    <cache name="fraudRules"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="7200"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- Merchant data cache -->
+    <cache name="merchantData"
+           maxElementsInMemory="2000"
+           eternal="false"
+           timeToIdleSeconds="7200"
+           timeToLiveSeconds="14400"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- Transaction history cache -->
+    <cache name="transactionHistory"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="900"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+</ehcache>
