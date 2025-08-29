@@ -1,10 +1,12 @@
 package com.fraudguard.model;
 
+import java.math.BigDecimal;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +46,10 @@ public class FraudAlert {
     @Column(columnDefinition = "TEXT")
     private String description;
     
+    // FIXED: Changed from Double to BigDecimal
     @NotNull(message = "Confidence score is required")
-    @Column(name = "confidence_score", precision = 3, scale = 2)
-    private Double confidenceScore;
+    @Column(name = "confidence_score", precision = 5, scale = 2)
+    private BigDecimal confidenceScore;
     
     @Column(name = "rule_triggered", length = 255)
     private String ruleTriggered;
@@ -128,7 +131,7 @@ public class FraudAlert {
         this.resolvedAt = LocalDateTime.now();
     }
     
-    // Getters and Setters
+    // Getters and Setters (updated for BigDecimal)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
@@ -150,8 +153,9 @@ public class FraudAlert {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
     
-    public Double getConfidenceScore() { return confidenceScore; }
-    public void setConfidenceScore(Double confidenceScore) { this.confidenceScore = confidenceScore; }
+    // UPDATED: BigDecimal getter/setter
+    public BigDecimal getConfidenceScore() { return confidenceScore; }
+    public void setConfidenceScore(BigDecimal confidenceScore) { this.confidenceScore = confidenceScore; }
     
     public String getRuleTriggered() { return ruleTriggered; }
     public void setRuleTriggered(String ruleTriggered) { this.ruleTriggered = ruleTriggered; }
