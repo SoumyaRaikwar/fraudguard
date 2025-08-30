@@ -1,42 +1,40 @@
+
 package com.fraudguard.service;
 
-import com.fraudguard.dto.UserCreateRequest;
 import com.fraudguard.model.User;
 import com.fraudguard.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
-@Transactional
-@RequiredArgsConstructor
-@Slf4j
-public class UserService {
-    
+public class UserService implements UserDetailsService {
+
     private final UserRepository userRepository;
-    
-    public User createUser(UserCreateRequest request) {
-        log.info("Creating user with email: {}", request.getEmail());
-        
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("User already exists with email: " + request.getEmail());
-        }
-        
-        User user = new User(request.getEmail(), request.getFirstName(), request.getLastName());
-        user.setPhoneNumber(request.getPhoneNumber());
-        user.setCity(request.getCity());
-        user.setCountry(request.getCountry());
-        
-        User savedUser = userRepository.save(user);
-        log.info("User created successfully with ID: {}", savedUser.getId());
-        
-        return savedUser;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
-    
-    @Transactional(readOnly = true)
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found: " + email));
+
+    public User register(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getRole() == null) user.setRole("ANALYST");
+        return userRepository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        List<GrantedAuthority> auth = List.of(new SimpleGrantedAuthority("ROLE_" + (user.getRole()==null?"ANALYST":user.getRole())));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), (String) user.getPassword(), auth);
     }
 }

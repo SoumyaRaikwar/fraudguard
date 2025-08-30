@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FraudGuard Enhanced: Advanced Money Laundering Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+   
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-shield-alt fa-2x"></i>
+            <h2>FraudGuard Enhanced</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="#" class="active"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+                <li><a href="#"><i class="fas fa-bell"></i> <span>Alerts</span></a></li>
+                <li><a href="#"><i class="fas fa-project-diagram"></i> <span>Network Analysis</span></a></li>
+                <li><a href="#"><i class="fas fa-user-circle"></i> <span>Customer Profiles</span></a></li>
+                <li><a href="#"><i class="fas fa-file-alt"></i> <span>SAR Manager</span></a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+   
+    <main class="main-content">
+        <div class="header">
+            <h1>Money Laundering Detection Dashboard</h1>
+            <div class="user-info">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff" alt="User">
+                <div>
+                    <div>Admin User</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Compliance Officer</div>
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="dashboard-cards">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Total Alerts</div>
+                    <div class="card-icon" style="background: #e3f2fd; color: var(--primary);">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                </div>
+                <div class="card-value">142</div>
+                <div class="card-trend">
+                    <i class="fas fa-arrow-up"></i> 12% from last week
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">High Priority Alerts</div>
+                    <div class="card-icon" style="background: #ffebee; color: var(--danger);">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                </div>
+                <div class="card-value">27</div>
+                <div class="card-trend down">
+                    <i class="fas fa-arrow-down"></i> 5% from last week
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">SARs Filed</div>
+                    <div class="card-icon" style="background: #e8f5e9; color: var(--success);">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                </div>
+                <div class="card-value">18</div>
+                <div class="card-trend">
+                    <i class="fas fa-arrow-up"></i> 8% from last week
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Avg. Investigation Time</div>
+                    <div class="card-icon" style="background: #fff8e1; color: var(--warning);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+                <div class="card-value">3.2h</div>
+                <div class="card-trend down">
+                    <i class="fas fa-arrow-down"></i> 15% from last week
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="dashboard-cards">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Suspicious Activity by Type</div>
+                    <div class="chart-actions">
+                        <button>Last 7 Days</button>
+                        <button>Export</button>
+                    </div>
+                </div>
+                <div class="chart-canvas">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Detection Accuracy by Model</div>
+                    <div class="chart-actions">
+                        <button>Last 30 Days</button>
+                        <button>Export</button>
+                    </div>
+                </div>
+                <div class="chart-canvas">
+                    <canvas id="accuracyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+      
+        <div class="network-graph">
+            <div class="graph-placeholder">
+                <i class="fas fa-project-diagram"></i>
+                <h3>Transaction Network Analysis</h3>
+                <p>Visualization of complex money laundering networks</p>
+                <button style="margin-top: 20px; padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    Launch Network Investigator
+                </button>
+            </div>
+        </div>
+
+       
+        <div class="alert-table">
+            <div class="chart-header">
+                <div class="chart-title">Recent High Priority Alerts</div>
+                <div class="chart-actions">
+                    <button>Filter</button>
+                    <button>Export</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Pattern</th>
+                        <th>Risk Score</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10:23 AM</td>
+                        <td>Global Imports Inc.</td>
+                        <td>$9,520.00</td>
+                        <td>Wire Transfer</td>
+                        <td>Structuring</td>
+                        <td><span class="badge badge-high">92%</span></td>
+                        <td>New</td>
+                    </tr>
+                    <tr>
+                        <td>09:45 AM</td>
+                        <td>John D. Smith</td>
+                        <td>$18,450.00</td>
+                        <td>Crypto Exchange</td>
+                        <td>Layering</td>
+                        <td><span class="badge badge-high">87%</span></td>
+                        <td>In Review</td>
+                    </tr>
+                    <tr>
+                        <td>09:12 AM</td>
+                        <td>EuroTrade LLC</td>
+                        <td>$47,800.00</td>
+                        <td>Business Payment</td>
+                        <td>Trade-Based</td>
+                        <td><span class="badge badge-high">95%</span></td>
+                        <td>New</td>
+                    </tr>
+                    <tr>
+                        <td>Yesterday</td>
+                        <td>Maria Rodriguez</td>
+                        <td>$12,300.00</td>
+                        <td>Multiple Deposits</td>
+                        <td>Structuring</td>
+                        <td><span class="badge badge-medium">76%</span></td>
+                        <td>Escalated</td>
+                    </tr>
+                    <tr>
+                        <td>Yesterday</td>
+                        <td>Digital Assets Co.</td>
+                        <td>$124,500.00</td>
+                        <td>Crypto Transfer</td>
+                        <td>Integration</td>
+                        <td><span class="badge badge-high">89%</span></td>
+                        <td>SAR Prepared</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
